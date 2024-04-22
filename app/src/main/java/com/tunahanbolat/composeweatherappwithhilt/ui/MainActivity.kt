@@ -21,31 +21,62 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.LiveData
+import androidx.navigation.NavController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.google.gson.Gson
+import com.tunahanbolat.composeweatherappwithhilt.data.WeatherResponse
 import com.tunahanbolat.composeweatherappwithhilt.ui.screen.WeatherScreen
 import com.tunahanbolat.composeweatherappwithhilt.ui.screen.WeatherViewModel
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.ComposeWeatherAppWithHiltTheme
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
+import com.tunahanbolat.composeweatherappwithhilt.ui.MainActivity
+import com.tunahanbolat.composeweatherappwithhilt.ui.screen.Detail
 import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val weatherViewModel: WeatherViewModel by viewModels()
-
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
-            ComposeWeatherAppWithHiltTheme {
+            AppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    WeatherScreen(
-                        weatherViewModel
-                    )
+                    SayfaGecis()
                 }
+            }
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.P)
+    @Composable
+    fun SayfaGecis(){
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "anasayfa"){
+            composable("anasayfa"){
+                WeatherScreen(
+                    viewModel = weatherViewModel,
+                    navController = navController)
+            }
+            composable("detay/{hava}", arguments = listOf(
+                navArgument("hava"){type = NavType.StringType}
+
+            )){
+                val json = it.arguments?.getString("hava")
+                val weatherResponse = Gson().fromJson(json,WeatherResponse::class.java)
+                Detail(
+                    navController = navController,
+                    weatherResponse=weatherResponse
+                    )
             }
         }
     }

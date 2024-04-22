@@ -37,10 +37,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import coil.decode.ImageDecoderDecoder
+import com.google.gson.Gson
 import com.tunahanbolat.composeweatherappwithhilt.data.WeatherResponse
 import com.tunahanbolat.composeweatherappwithhilt.network.WeatherRepository
 import com.tunahanbolat.composeweatherappwithhilt.network.WeatherService
@@ -49,7 +51,7 @@ import com.tunahanbolat.composeweatherappwithhilt.network.WeatherService
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun WeatherScreen(viewModel: WeatherViewModel) {
+fun WeatherScreen(viewModel: WeatherViewModel,navController: NavController) {
 
     val weatherData = viewModel.weatherDataList.value
     val error = viewModel.error.value
@@ -60,7 +62,8 @@ fun WeatherScreen(viewModel: WeatherViewModel) {
                 items(items = weatherData) { item ->
                     WeatherRow(
                         modifier = Modifier,
-                        weatherResponse = item
+                        weatherResponse = item,
+                        navController
                     )
                 }
             }
@@ -72,11 +75,13 @@ fun WeatherScreen(viewModel: WeatherViewModel) {
     }
 }
 
+@SuppressLint("SuspiciousIndentation")
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun WeatherRow(
     modifier: Modifier,
-    weatherResponse: WeatherResponse
+    weatherResponse: WeatherResponse,
+    navController: NavController
 ) {
 
     ElevatedCard(
@@ -85,7 +90,10 @@ fun WeatherRow(
             .fillMaxWidth()
             .height(100.dp)
             .fillMaxWidth()
-            .clickable { },
+            .clickable {
+                val weatherJson = Gson().toJson(weatherResponse)
+                       navController.navigate("detay/$weatherJson")
+            },
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(10.dp),
 //        colors = CardDefaults.cardColors(

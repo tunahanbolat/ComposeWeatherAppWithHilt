@@ -20,16 +20,16 @@ import androidx.compose.ui.unit.sp
 fun WeatherScreen() {
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.padding(16.dp)) {
-            WeatherInfo("Jakarta 7", "Good Morning", 21, "THUNDERSTORM")
+            WeatherInfo("Çorum", "Günaydın", 18, "Parçalı Bulutlu")
             Spacer(modifier = Modifier.height(16.dp))
             NextDaysInfo()
             Spacer(modifier = Modifier.height(16.dp))
-            CurrentInfo("Sunrise", "5:34 am")
-            CurrentInfo("Air Quality", "60 Moderate")
-            CurrentInfo("Precipitation", "87%")
-            CurrentInfo("Sunset", "6:34 am")
-            CurrentInfo("Humidity", "87%")
-            CurrentInfo("Light Rain", "34%")
+            CurrentInfo("Gündoğumu", "5:34 am")
+            CurrentInfo("Hava Kalitesi", "60M")
+            CurrentInfo("Yağış İhtimali", "87%")
+            CurrentInfo("Günbatımı", "6:34 am")
+            CurrentInfo("Nem", "87%")
+            CurrentInfo("Hafif yağmur", "34%")
         }
     }
 }
