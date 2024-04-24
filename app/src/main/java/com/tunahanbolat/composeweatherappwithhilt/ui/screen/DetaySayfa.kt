@@ -47,8 +47,8 @@ fun Detail(navController: NavController, weatherResponse:WeatherResponse) {
         DetailPageIcon(weatherResponse)
         DetailTemperature(weatherResponse)
         DetailSubPageDouble()
-        DetailSubPageCompDouble()
-        DetailSubPageCompSecondComp()
+        DetailSubPageCompDouble(weatherResponse)
+        DetailSubPageCompSecondComp(weatherResponse)
     }
 }
 
@@ -98,7 +98,7 @@ fun DetailTemperature(weatherResponse: WeatherResponse) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 10.dp)) {
-        Text(text = weatherResponse.current.tempC.toString(),
+        Text(text = "${weatherResponse.current.tempC} °C",
             fontSize = 64.sp,
             color = MaterialTheme.colorScheme.onSurface)
         Text(
@@ -132,38 +132,38 @@ fun DetailSubPageDouble() {
 }
 
 @Composable
-fun DetailSubPageCompDouble(){
+fun DetailSubPageCompDouble(weatherResponse: WeatherResponse){
     Row(modifier = Modifier.padding(top = 1.dp)) {
         DetailSubPageComponents(
             modifier = Modifier.weight(1f),
             title = "Rüzgar Hızı",
-            speed = "2.2 km/s",
+            speed = "${weatherResponse.current.windMph} km/s",
             imageId = R.drawable.windy,
             size = 64)
 
         DetailSubPageWindDirection(
             modifier = Modifier.weight(1f),
             title = "Rüzgar Yönü",
-            degree = "269°",
+            degree = "${weatherResponse.current.windDegree}°",
             imageId = R.drawable.compass2,
             size = 64)
     }
 }
 
 @Composable
-fun DetailSubPageCompSecondComp(){
+fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse){
     Row(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) {
         DetailSubPageHumidity(
             modifier = Modifier.weight(1f),
             title = "Nem",
-            deger = "%71",
+            deger = "%${weatherResponse.current.humidity}",
             imageId = R.drawable.humidity,
             size = 64)
 
         DetailSubPageTemp(
             modifier = Modifier.weight(1f),
             title = "Hissedilen Sıcaklık",
-            temperature = "17°C",
+            temperature = "${weatherResponse.current.feelslikeC} °C",
             imageId = R.drawable.thermometer,
             size = 64)
     }
@@ -352,7 +352,7 @@ fun DetailSubPageTemp(
 //@Preview(showBackground = true)
 //@Composable
 //fun DetayGor() {
-//    DetailCityTitle("Çorum")
+//    DetailCityTitle()
 //}
 //
 //@Preview(showBackground = true)

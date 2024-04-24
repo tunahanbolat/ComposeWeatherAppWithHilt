@@ -46,6 +46,8 @@ import com.google.gson.Gson
 import com.tunahanbolat.composeweatherappwithhilt.data.WeatherResponse
 import com.tunahanbolat.composeweatherappwithhilt.network.WeatherRepository
 import com.tunahanbolat.composeweatherappwithhilt.network.WeatherService
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 @RequiresApi(Build.VERSION_CODES.P)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -91,8 +93,11 @@ fun WeatherRow(
             .height(100.dp)
             .fillMaxWidth()
             .clickable {
+
                 val weatherJson = Gson().toJson(weatherResponse)
-                       navController.navigate("detay/$weatherJson")
+                val encode = URLEncoder.encode(weatherJson, StandardCharsets.UTF_8.toString())
+
+                navController.navigate("detay/$encode")
             },
         shape = RoundedCornerShape(12.dp),
         elevation = CardDefaults.cardElevation(10.dp),

@@ -67,15 +67,14 @@ class MainActivity : ComponentActivity() {
                     viewModel = weatherViewModel,
                     navController = navController)
             }
-            composable("detay/{hava}", arguments = listOf(
-                navArgument("hava"){type = NavType.StringType}
-
+            composable("detay/{weatherResponse}", arguments = listOf(
+                navArgument("weatherResponse"){type = NavType.StringType}
             )){
-                val json = it.arguments?.getString("hava")
+                    val json = it.arguments?.getString("weatherResponse")
                 val weatherResponse = Gson().fromJson(json,WeatherResponse::class.java)
                 Detail(
                     navController = navController,
-                    weatherResponse=weatherResponse
+                    weatherResponse = weatherResponse
                     )
             }
         }

@@ -15,8 +15,10 @@ data class Current (
     val tempF: Long,
     val isDay: Long,
     val condition: Condition,
+    @SerializedName("wind_mph")
     val windMph: Double,
     val windKph: Double,
+    @SerializedName("wind_degree")
     val windDegree: Long,
     val windDir: String,
     val pressureMB: Long,
@@ -25,7 +27,8 @@ data class Current (
     val precipIn: Long,
     val humidity: Long,
     val cloud: Long,
-    val feelslikeC: Long,
+    @SerializedName("feelslike_c")
+    val feelslikeC: Double,
     val feelslikeF: Long,
     val visKM: Long,
     val visMiles: Long,
