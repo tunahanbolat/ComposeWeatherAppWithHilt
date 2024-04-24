@@ -3,6 +3,7 @@ package com.tunahanbolat.composeweatherappwithhilt.ui.screen
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,6 +28,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
@@ -89,14 +92,11 @@ fun WeatherRow(
     ElevatedCard(
         modifier = Modifier
             .padding(all = 5.dp)
-            .fillMaxWidth()
             .height(100.dp)
             .fillMaxWidth()
             .clickable {
-
                 val weatherJson = Gson().toJson(weatherResponse)
                 val encode = URLEncoder.encode(weatherJson, StandardCharsets.UTF_8.toString())
-
                 navController.navigate("detay/$encode")
             },
         shape = RoundedCornerShape(12.dp),
