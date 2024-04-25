@@ -36,14 +36,12 @@ import com.tunahanbolat.composeweatherappwithhilt.ui.MainActivity
 import com.tunahanbolat.composeweatherappwithhilt.ui.screen.Detail
 import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val weatherViewModel: WeatherViewModel by viewModels()
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
             AppTheme {
                 // A surface container using the 'background' color from the theme
@@ -56,7 +54,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.P)
     @Composable
     fun SayfaGecis(){

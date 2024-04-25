@@ -1,12 +1,10 @@
 package com.tunahanbolat.composeweatherappwithhilt.data
 
 import com.google.gson.annotations.SerializedName
-
 data class WeatherResponse (
     val location: Location,
     val current: Current
 )
-
 data class Current (
     val lastUpdatedEpoch: Long,
     val lastUpdated: String,
@@ -36,13 +34,11 @@ data class Current (
     val gustMph: Double,
     val gustKph: Double
 )
-
 data class Condition (
     val text: String,
     val icon: String,
     val code: Long
 )
-
 data class Location (
     val name: String,
     val region: String,
