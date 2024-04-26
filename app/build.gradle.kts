@@ -88,9 +88,11 @@ dependencies {
     implementation("io.coil-kt:coil:2.6.0")
     implementation("io.coil-kt:coil-gif:2.6.0")
 
-
+    //Navigation Controller
     implementation ("androidx.navigation:navigation-compose:2.7.7")
 
+    // Splash API
+    implementation ("androidx.core:core-splashscreen:1.0.1")
 }
 
 kapt {

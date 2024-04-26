@@ -16,6 +16,13 @@ class WeatherViewModel @Inject constructor(
     private val weatherRepository: WeatherRepository
 ) : ViewModel() {
 
+    private val sehirList = arrayListOf(
+        "Corum","Adana", "Ankara", "Antalya", "Bursa",
+        "Denizli", "Erzurum", "Eskişehir", "Gaziantep", "Istanbul",
+        "Izmir","Kastamonu", "Kayseri", "Kocaeli", "Konya",
+        "Manisa","Mersin", "Sakarya", "Samsun", "Trabzon",
+        "Yozgat","Zonguldak"
+    )
     private var _weatherDataList: MutableState<List<WeatherResponse>> = mutableStateOf(emptyList())
     var weatherDataList: State<List<WeatherResponse>> = _weatherDataList
 
@@ -28,10 +35,9 @@ class WeatherViewModel @Inject constructor(
     fun fetchWeather(lang: String) {
         viewModelScope.launch {
             val newResponse = mutableListOf<WeatherResponse>()
-            for (i in 0..21){
+            for (city in sehirList) {
                 try {
-
-                    val response = weatherRepository.getWeather(sehirList[i], lang)
+                    val response = weatherRepository.getWeather(city, lang)
 
                     if (response.isSuccessful) {
                         newResponse.add(response.body()!!)
@@ -42,15 +48,11 @@ class WeatherViewModel @Inject constructor(
                     error.value = "Error fetching weather data: ${e.message}"
                 }
             }
+
+
             _weatherDataList.value = newResponse.toList()
         }
     }
 
-    private val sehirList = arrayListOf(
-        "Corum","Adana", "Ankara", "Antalya", "Bursa",
-        "Denizli", "Erzurum", "Eskişehir", "Gaziantep", "Istanbul",
-        "Izmir","Kastamonu", "Kayseri", "Kocaeli", "Konya",
-        "Manisa","Mersin", "Sakarya", "Samsun", "Trabzon",
-        "Yozgat","Zonguldak"
-    )
+
 }

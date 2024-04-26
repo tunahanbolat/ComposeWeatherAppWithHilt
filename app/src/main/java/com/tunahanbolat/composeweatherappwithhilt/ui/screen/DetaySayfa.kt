@@ -57,6 +57,7 @@ import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.josefinsans
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import kotlin.math.roundToLong
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,6 +98,7 @@ fun DetailCityTitle(weatherResponse: WeatherResponse) {
         )
     }
 }
+
 @Composable
 fun DetailPageIcon(weatherResponse: WeatherResponse) {
     Column() {
@@ -120,7 +122,7 @@ fun DetailTemperature(weatherResponse: WeatherResponse) {
             .fillMaxWidth()
     ) {
         Text(
-            text = "${weatherResponse.current.tempC}°C",
+            text = "${weatherResponse.current.tempC.roundToLong()}°C",
             fontSize = 64.sp,
             fontWeight = FontWeight.Bold,
             fontFamily = kaushan,
@@ -135,6 +137,7 @@ fun DetailTemperature(weatherResponse: WeatherResponse) {
         )
     }
 }
+
 @Composable
 fun DetailSubPageDouble() {
     Row(modifier = Modifier.padding(top = 30.dp)) {
@@ -154,6 +157,7 @@ fun DetailSubPageDouble() {
         )
     }
 }
+
 @Composable
 fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
     Row(modifier = Modifier.padding(top = 10.dp)) {
@@ -173,6 +177,7 @@ fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
         )
     }
 }
+
 @Composable
 fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse) {
     Row(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) {
@@ -192,6 +197,7 @@ fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse) {
         )
     }
 }
+
 @Composable
 fun DetailSubPageSun(modifier: Modifier, title: String, clock: String, imageId: Int, size: Int) {
     Row(
@@ -222,6 +228,7 @@ fun DetailSubPageSun(modifier: Modifier, title: String, clock: String, imageId: 
         }
     }
 }
+
 @Composable
 fun DetailSubPageComponents(
     modifier: Modifier,
@@ -260,6 +267,7 @@ fun DetailSubPageComponents(
         }
     }
 }
+
 @Composable
 fun DetailSubPageWindDirection(
     modifier: Modifier,
@@ -298,6 +306,7 @@ fun DetailSubPageWindDirection(
         }
     }
 }
+
 @Composable
 fun DetailSubPageHumidity(
     modifier: Modifier,
@@ -336,6 +345,7 @@ fun DetailSubPageHumidity(
         }
     }
 }
+
 @Composable
 fun DetailSubPageTemp(
     modifier: Modifier,
@@ -374,6 +384,7 @@ fun DetailSubPageTemp(
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DetayTitle() {
@@ -391,8 +402,8 @@ fun DetayTitle() {
             ), current = Current(
                 lastUpdatedEpoch = 0L,
                 lastUpdated = "2024-04-19 06:51:08",
-                tempC = 20L,
-                tempF = 68L,
+                tempC = 20.0,
+                tempF = 68.0,
                 isDay = 1L,
                 condition = Condition(
                     text = "Sunny",
@@ -410,7 +421,7 @@ fun DetayTitle() {
                 humidity = 50L,
                 cloud = 0L,
                 feelslikeC = 20.0,
-                feelslikeF = 68L,
+                feelslikeF = 68.0,
                 visKM = 10L,
                 visMiles = 6L,
                 uv = 5L,
@@ -420,6 +431,7 @@ fun DetayTitle() {
         )
     )
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DetayIcon() {
@@ -437,8 +449,8 @@ fun DetayIcon() {
             ), current = Current(
                 lastUpdatedEpoch = 0L,
                 lastUpdated = "2024-04-19 06:51:08",
-                tempC = 20L,
-                tempF = 68L,
+                tempC = 20.0,
+                tempF = 68.0,
                 isDay = 1L,
                 condition = Condition(
                     text = "Sunny",
@@ -456,7 +468,7 @@ fun DetayIcon() {
                 humidity = 50L,
                 cloud = 0L,
                 feelslikeC = 20.0,
-                feelslikeF = 68L,
+                feelslikeF = 68.0,
                 visKM = 10L,
                 visMiles = 6L,
                 uv = 5L,
@@ -466,6 +478,7 @@ fun DetayIcon() {
         )
     )
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DetayTemp() {
@@ -483,8 +496,8 @@ fun DetayTemp() {
             ), current = Current(
                 lastUpdatedEpoch = 0L,
                 lastUpdated = "2024-04-19 06:51:08",
-                tempC = 20L,
-                tempF = 68L,
+                tempC = 20.0,
+                tempF = 68.0,
                 isDay = 1L,
                 condition = Condition(
                     text = "Güneşli",
@@ -502,7 +515,7 @@ fun DetayTemp() {
                 humidity = 50L,
                 cloud = 0L,
                 feelslikeC = 20.0,
-                feelslikeF = 68L,
+                feelslikeF = 68.0,
                 visKM = 10L,
                 visMiles = 6L,
                 uv = 5L,
@@ -512,6 +525,7 @@ fun DetayTemp() {
         )
     )
 }
+
 @Preview(showBackground = true)
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
@@ -532,8 +546,8 @@ fun DetailPreview() {
                 ), current = Current(
                     lastUpdatedEpoch = 0L,
                     lastUpdated = "2024-04-19 06:51:08",
-                    tempC = 20L,
-                    tempF = 68L,
+                    tempC = 20.0,
+                    tempF = 68.0,
                     isDay = 1L,
                     condition = Condition(
                         text = "Güneşli",
@@ -551,7 +565,7 @@ fun DetailPreview() {
                     humidity = 50L,
                     cloud = 0L,
                     feelslikeC = 20.0,
-                    feelslikeF = 68L,
+                    feelslikeF = 68.0,
                     visKM = 10L,
                     visMiles = 6L,
                     uv = 5L,

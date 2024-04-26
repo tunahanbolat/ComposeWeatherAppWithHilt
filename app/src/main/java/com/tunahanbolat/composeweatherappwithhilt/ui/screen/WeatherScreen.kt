@@ -33,6 +33,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -63,6 +64,8 @@ import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.nio.file.WatchEvent
+import kotlin.math.roundToLong
+
 @RequiresApi(Build.VERSION_CODES.P)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -89,12 +92,30 @@ fun WeatherScreen(viewModel: WeatherViewModel, navController: NavController) {
 fun WeatherRow(
     modifier: Modifier, weatherResponse: WeatherResponse, navController: NavController
 ) {
-    val gradient = Brush.horizontalGradient(
+//    val gradient = Brush.horizontalGradient(
+//        0.0f to colorResource(id = R.color.background_top),
+//        1.0f to colorResource(id = R.color.background_bottom2),
+//        startX = 0.0f,
+//        endX = 1000.0f
+//    )
+    val gradient = Brush.linearGradient(
         0.0f to colorResource(id = R.color.background_top),
-        1.0f to colorResource(id = R.color.background_bottom2),
-        startX = 0.0f,
-        endX = 1000.0f
+        500.0f to colorResource(id = R.color.background_bottom2),
+        start = Offset.Zero,
+        end = Offset.Infinite
     )
+//    val gradient = Brush.verticalGradient(
+//        0.0f to colorResource(id = R.color.background_top),
+//        500.0f to colorResource(id = R.color.background_bottom2),
+//        startY = 0.0f,
+//        endY = 1500.0f
+//    )
+//    val gradient = Brush.radialGradient(
+//        0.0f to colorResource(id = R.color.background_top),
+//        500.0f to colorResource(id = R.color.background_bottom2),
+//        radius = 1500.0f,
+//        tileMode = TileMode.Repeated
+//    )
     ElevatedCard(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
@@ -156,7 +177,7 @@ fun WeatherRow(
                     alpha = 0.8F
                 )
                 Text(
-                    text = "${weatherResponse.current.tempC} °C",
+                    text = "${weatherResponse.current.tempC.roundToLong()} °C",
                     textAlign = TextAlign.Center,
                     fontSize = 30.sp,
                     fontFamily = kaushan,
@@ -186,8 +207,8 @@ fun WeatherScreenPreview() {
                 ), current = Current(
                     lastUpdatedEpoch = 0L,
                     lastUpdated = "2024-04-19 06:51:08",
-                    tempC = 20L,
-                    tempF = 68L,
+                    tempC = 20.0,
+                    tempF = 68.0,
                     isDay = 1L,
                     condition = Condition(
                         text = "Sunny",
@@ -205,7 +226,7 @@ fun WeatherScreenPreview() {
                     humidity = 50L,
                     cloud = 0L,
                     feelslikeC = 20.0,
-                    feelslikeF = 68L,
+                    feelslikeF = 68.0,
                     visKM = 10L,
                     visMiles = 6L,
                     uv = 5L,

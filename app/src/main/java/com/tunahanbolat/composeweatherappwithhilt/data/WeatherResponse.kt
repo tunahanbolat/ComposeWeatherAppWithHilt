@@ -9,8 +9,8 @@ data class Current (
     val lastUpdatedEpoch: Long,
     val lastUpdated: String,
     @SerializedName("temp_c")
-    val tempC: Long,
-    val tempF: Long,
+    val tempC: Double,
+    val tempF: Double,
     val isDay: Long,
     val condition: Condition,
     @SerializedName("wind_mph")
@@ -27,7 +27,7 @@ data class Current (
     val cloud: Long,
     @SerializedName("feelslike_c")
     val feelslikeC: Double,
-    val feelslikeF: Long,
+    val feelslikeF: Double,
     val visKM: Long,
     val visMiles: Long,
     val uv: Long,
