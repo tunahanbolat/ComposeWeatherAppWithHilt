@@ -73,11 +73,12 @@ import kotlin.math.roundToLong
 fun WeatherScreen(viewModel: WeatherViewModel, navController: NavController) {
     val weatherData = viewModel.weatherDataList.value
     val error = viewModel.error.value
+
     Scaffold(content = {
         LazyColumn(contentPadding = it) {
             items(items = weatherData) { item ->
                 WeatherRow(
-                    modifier = Modifier, weatherResponse = item, navController
+                    weatherResponse = item, navController
                 )
             }
         }
@@ -90,7 +91,7 @@ fun WeatherScreen(viewModel: WeatherViewModel, navController: NavController) {
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
 fun WeatherRow(
-    modifier: Modifier, weatherResponse: WeatherResponse, navController: NavController
+    weatherResponse: WeatherResponse, navController: NavController
 ) {
 //    val gradient = Brush.horizontalGradient(
 //        0.0f to colorResource(id = R.color.background_top),
@@ -233,7 +234,7 @@ fun WeatherScreenPreview() {
                     gustMph = 12.0,
                     gustKph = 19.3
                 )
-            ), modifier = Modifier
+            )
         )
     }
 }

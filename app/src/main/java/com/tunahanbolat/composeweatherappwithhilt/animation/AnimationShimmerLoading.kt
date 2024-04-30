@@ -12,14 +12,12 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-
 fun Modifier.shimmerLoadingAnimation(
     widthOfShadowBrush: Int = 500,
     angleOfAxisY: Float = 270f,
     durationMillis: Int = 1500,
 ): Modifier {
     return composed {
-
         val shimmerColors = listOf(
             Color.LightGray.copy(alpha = 0.3f),
             Color.LightGray.copy(alpha = 0.5f),
@@ -27,9 +25,7 @@ fun Modifier.shimmerLoadingAnimation(
             Color.LightGray.copy(alpha = 0.5f),
             Color.LightGray.copy(alpha = 0.3f),
         )
-
         val transition = rememberInfiniteTransition(label = "")
-
         val translateAnimation = transition.animateFloat(
             initialValue = 0f,
             targetValue = (durationMillis + widthOfShadowBrush).toFloat(),
@@ -42,7 +38,6 @@ fun Modifier.shimmerLoadingAnimation(
             ),
             label = "Shimmer loading animation",
         )
-
         this.background(
             brush = Brush.linearGradient(
                 colors = shimmerColors,

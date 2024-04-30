@@ -58,7 +58,6 @@ import com.tunahanbolat.composeweatherappwithhilt.ui.theme.josefinsans
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import kotlin.math.roundToLong
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -84,7 +83,6 @@ fun Detail(navController: NavController, weatherResponse: WeatherResponse) {
         DetailSubPageCompSecondComp(weatherResponse)
     }
 }
-
 @Composable
 fun DetailCityTitle(weatherResponse: WeatherResponse) {
     Column() {
@@ -98,7 +96,6 @@ fun DetailCityTitle(weatherResponse: WeatherResponse) {
         )
     }
 }
-
 @Composable
 fun DetailPageIcon(weatherResponse: WeatherResponse) {
     Column() {
@@ -113,7 +110,6 @@ fun DetailPageIcon(weatherResponse: WeatherResponse) {
         )
     }
 }
-
 @Composable
 fun DetailTemperature(weatherResponse: WeatherResponse) {
     Column(
@@ -137,7 +133,6 @@ fun DetailTemperature(weatherResponse: WeatherResponse) {
         )
     }
 }
-
 @Composable
 fun DetailSubPageDouble() {
     Row(modifier = Modifier.padding(top = 30.dp)) {
@@ -157,7 +152,6 @@ fun DetailSubPageDouble() {
         )
     }
 }
-
 @Composable
 fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
     Row(modifier = Modifier.padding(top = 10.dp)) {
@@ -177,7 +171,6 @@ fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
         )
     }
 }
-
 @Composable
 fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse) {
     Row(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) {
@@ -197,7 +190,6 @@ fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse) {
         )
     }
 }
-
 @Composable
 fun DetailSubPageSun(modifier: Modifier, title: String, clock: String, imageId: Int, size: Int) {
     Row(
@@ -228,7 +220,6 @@ fun DetailSubPageSun(modifier: Modifier, title: String, clock: String, imageId: 
         }
     }
 }
-
 @Composable
 fun DetailSubPageComponents(
     modifier: Modifier,
@@ -267,7 +258,6 @@ fun DetailSubPageComponents(
         }
     }
 }
-
 @Composable
 fun DetailSubPageWindDirection(
     modifier: Modifier,
@@ -306,7 +296,6 @@ fun DetailSubPageWindDirection(
         }
     }
 }
-
 @Composable
 fun DetailSubPageHumidity(
     modifier: Modifier,
@@ -345,7 +334,6 @@ fun DetailSubPageHumidity(
         }
     }
 }
-
 @Composable
 fun DetailSubPageTemp(
     modifier: Modifier,
@@ -384,7 +372,6 @@ fun DetailSubPageTemp(
         }
     }
 }
-
 @Preview(showBackground = true)
 @Composable
 fun DetayTitle() {
@@ -431,7 +418,6 @@ fun DetayTitle() {
         )
     )
 }
-
 @Preview(showBackground = true)
 @Composable
 fun DetayIcon() {
@@ -478,7 +464,6 @@ fun DetayIcon() {
         )
     )
 }
-
 @Preview(showBackground = true)
 @Composable
 fun DetayTemp() {
@@ -525,7 +510,6 @@ fun DetayTemp() {
         )
     )
 }
-
 @Preview(showBackground = true)
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable

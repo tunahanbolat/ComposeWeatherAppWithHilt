@@ -12,7 +12,7 @@
             @color/splash_background
         </item>
         <item name="windowSplashScreenAnimatedIcon">
-            @drawable/splash2
+            @mipmap/ic_launcher
         </item>
         <item name="postSplashScreenTheme">
             @style/Theme.ComposeWeatherAppWithHilt

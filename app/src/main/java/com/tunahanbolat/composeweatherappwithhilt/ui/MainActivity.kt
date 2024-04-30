@@ -8,6 +8,16 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,6 +29,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -50,7 +61,6 @@ import com.tunahanbolat.composeweatherappwithhilt.ui.screen.ShimmerLoadingScreen
 import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private val weatherViewModel: WeatherViewModel by viewModels()
@@ -60,18 +70,18 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         installSplashScreen()
         setContent {
+            val isLoading = weatherViewModel.loadingState
             AppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    LoadingEffect()
+                    LoadingEffect(isLoading)
                 }
             }
         }
     }
-
     @RequiresApi(Build.VERSION_CODES.P)
     @Composable
     fun SayfaGecis() {
@@ -95,20 +105,19 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
+    @OptIn(ExperimentalAnimationApi::class)
     @RequiresApi(Build.VERSION_CODES.P)
     @Composable
-    fun LoadingEffect() {
-        var loadingState1 = weatherViewModel.loadingState.value
+    fun LoadingEffect(isLoading: State<Boolean>) {
+        val loadingState = isLoading.value
 
-        LaunchedEffect(Unit) {
+        LaunchedEffect(Unit) {}
+        BackHandler(enabled = loadingState) {}
 
-        }
-        BackHandler( enabled = loadingState1) {}
         Surface(color = MaterialTheme.colorScheme.background) {
-            if (loadingState1) {
+            if (loadingState){
                 ShimmerLoadingScreen()
-            } else {
+            }else   {
                 SayfaGecis()
             }
         }

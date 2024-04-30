@@ -1,6 +1,13 @@
 package com.tunahanbolat.composeweatherappwithhilt.ui.screen
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -38,10 +45,9 @@ import com.tunahanbolat.composeweatherappwithhilt.animation.shimmerLoadingAnimat
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
 import kotlin.math.roundToLong
-
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun ShimmerLoadingScreen() {
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -68,9 +74,7 @@ fun ShimmerLoadingScreen() {
             Spacer(modifier = Modifier.padding(8.dp))
         }
     }
-
 }
-
 @Composable
 fun ComponentRectangle() {
     Row(
@@ -106,8 +110,6 @@ fun ComponentRectangle() {
         }
     }
 }
-
-
 @Composable
 fun ComponentLongRectangle() {
     Box(
@@ -119,7 +121,6 @@ fun ComponentLongRectangle() {
             .shimmerLoadingAnimation()
     )
 }
-
 @Composable
 fun ComponentShortRectangle() {
     Box(
@@ -131,7 +132,6 @@ fun ComponentShortRectangle() {
             .shimmerLoadingAnimation()
     )
 }
-
 @Composable
 fun ComponentCircle() {
     Box(
@@ -143,7 +143,6 @@ fun ComponentCircle() {
             .shimmerLoadingAnimation()
     )
 }
-
 @Composable
 fun ComponentSquare() {
     Box(
@@ -155,32 +154,26 @@ fun ComponentSquare() {
             .shimmerLoadingAnimation()
     )
 }
-
 @Preview
 @Composable
 fun ComponentsLongRectPreview() {
     ComponentLongRectangle()
 }
-
 @Preview
 @Composable
 fun ComponentsShortRectPreview() {
     ComponentShortRectangle()
 }
-
 @Preview
 @Composable
 fun ComponentsCirclePreview() {
     ComponentCircle()
 }
-
 @Preview
 @Composable
 fun ComponentSquarePreview() {
     ComponentSquare()
 }
-
-
 @Preview(showBackground = true)
 //@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
