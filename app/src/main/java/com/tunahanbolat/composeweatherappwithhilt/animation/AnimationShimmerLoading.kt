@@ -16,16 +16,16 @@ import androidx.compose.ui.graphics.Color
 fun Modifier.shimmerLoadingAnimation(
     widthOfShadowBrush: Int = 500,
     angleOfAxisY: Float = 270f,
-    durationMillis: Int = 1000,
+    durationMillis: Int = 1500,
 ): Modifier {
     return composed {
 
         val shimmerColors = listOf(
-            Color.White.copy(alpha = 0.3f),
-            Color.White.copy(alpha = 0.5f),
-            Color.White.copy(alpha = 1.0f),
-            Color.White.copy(alpha = 0.5f),
-            Color.White.copy(alpha = 0.3f),
+            Color.LightGray.copy(alpha = 0.3f),
+            Color.LightGray.copy(alpha = 0.5f),
+            Color.LightGray.copy(alpha = 1.0f),
+            Color.LightGray.copy(alpha = 0.5f),
+            Color.LightGray.copy(alpha = 0.3f),
         )
 
         val transition = rememberInfiniteTransition(label = "")
