@@ -172,7 +172,7 @@ fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
             modifier = Modifier.weight(1f),
             title = "Rüzgar Yönü",
             degree = "${weatherResponse.current.windDegree}°",
-            imageId = R.drawable.compass2,
+            imageId = R.drawable.cardinalcompass,
             size = 64
         )
     }
@@ -185,14 +185,14 @@ fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse) {
             modifier = Modifier.weight(1f),
             title = "Nem",
             deger = "%${weatherResponse.current.humidity}",
-            imageId = R.drawable.humidity,
+            imageId = R.drawable.humidity2,
             size = 64
         )
         DetailSubPageTemp(
             modifier = Modifier.weight(1f),
             title = "Hissedilen",
             temperature = "${weatherResponse.current.feelslikeC}°C",
-            imageId = R.drawable.thermometer,
+            imageId = R.drawable.thermo,
             size = 64
         )
     }
