@@ -21,13 +21,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -36,6 +40,7 @@ import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.HorizontalAlignmentLine
 import androidx.compose.ui.layout.VerticalAlignmentLine
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -54,62 +59,117 @@ import com.tunahanbolat.composeweatherappwithhilt.data.Current
 import com.tunahanbolat.composeweatherappwithhilt.data.Location
 import com.tunahanbolat.composeweatherappwithhilt.data.WeatherResponse
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.astralstudio
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.bromphtown
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.crushbubble
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.deephero
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.feltful
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.genova
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.josefinsans
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.miyomura
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.mostheroes
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.nesdays
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.raspberie
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.rusticstory
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.somer
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.southaustrial
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.supercreamy
 import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
+import java.util.Calendar
 import kotlin.math.roundToLong
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Detail(navController: NavController, weatherResponse: WeatherResponse) {
-    val gradient = Brush.linearGradient(
-        0.0f to Color.Magenta,
-        500.0f to Color.Cyan,
+    val backColor : Brush
+    val gradientMorning = Brush.linearGradient(
+        0.0f to colorResource(id = R.color.morning_top),
+        500.0f to colorResource(id = R.color.morning_bottom),
         start = Offset.Zero,
         end = Offset.Infinite
     )
+    val gradientEvening = Brush.linearGradient(
+        0.0f to colorResource(id = R.color.background_bottom),
+        500.0f to colorResource(id = R.color.back_top),
+        start = Offset.Zero,
+        end = Offset.Infinite
+    )
+    val calendar = Calendar.getInstance()
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+
+    if(hour in 6..18){
+        backColor = gradientMorning
+    }
+    else{
+        backColor = gradientEvening
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(gradient),
+            .background(backColor)
+            .padding(vertical = 16.dp),
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         DetailCityTitle(weatherResponse)
         DetailPageIcon(weatherResponse)
         DetailTemperature(weatherResponse)
-        DetailSubPageDouble()
-        DetailSubPageCompDouble(weatherResponse)
-        DetailSubPageCompSecondComp(weatherResponse)
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .fillMaxWidth()
+                .background(
+                    shape = RoundedCornerShape(15.dp),
+                    color = Color(0x32616161)
+                )
+        ) {
+            DetailSubPageDouble()
+            Divider(modifier = Modifier.padding(start = 20.dp, end = 20.dp))
+            DetailSubPageCompDouble(weatherResponse)
+            Divider(modifier = Modifier.padding(start = 20.dp, end = 20.dp))
+            DetailSubPageCompSecondComp(weatherResponse)
+        }
     }
 }
+
 @Composable
 fun DetailCityTitle(weatherResponse: WeatherResponse) {
     Column() {
         Text(
             text = weatherResponse.location.name,
             fontSize = 32.sp,
-            fontFamily = kaushan,
+            fontFamily = genova,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface,
-            modifier = Modifier.padding(top = 10.dp)
+            modifier = Modifier.padding(10.dp)
         )
     }
 }
+
 @Composable
 fun DetailPageIcon(weatherResponse: WeatherResponse) {
-    Column() {
+    val shape = RoundedCornerShape(16.dp)
+    Column(
+        modifier = Modifier
+            .background(
+                shape = shape,
+                color = Color(0x22616161)
+            )
+    ) {
         AsyncImage(
             model = "https:${weatherResponse.current.condition.icon} ",
             contentDescription = null,
             modifier = Modifier
                 .width(200.dp)
                 .height(200.dp),
-            contentScale = ContentScale.Fit,
             alignment = Alignment.Center
         )
     }
 }
+
 @Composable
 fun DetailTemperature(weatherResponse: WeatherResponse) {
     Column(
@@ -119,23 +179,26 @@ fun DetailTemperature(weatherResponse: WeatherResponse) {
     ) {
         Text(
             text = "${weatherResponse.current.tempC.roundToLong()}°C",
-            fontSize = 64.sp,
+            fontSize = 72.sp,
             fontWeight = FontWeight.Bold,
-            fontFamily = kaushan,
+            fontFamily = genova,
             color = MaterialTheme.colorScheme.onSurface
         )
         Text(
             text = weatherResponse.current.condition.text,
             color = MaterialTheme.colorScheme.onSurface,
-            fontSize = 16.sp,
-            fontFamily = kaushan,
-            fontWeight = FontWeight.Bold
+            fontSize = 24.sp,
+            fontFamily = genova,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier.fillMaxWidth(),
+            textAlign = TextAlign.Center
         )
     }
 }
+
 @Composable
 fun DetailSubPageDouble() {
-    Row(modifier = Modifier.padding(top = 30.dp)) {
+    Row(modifier = Modifier.padding(start = 20.dp, top = 12.dp, bottom = 12.dp)) {
         DetailSubPageSun(
             modifier = Modifier.weight(1f),
             "Gündoğumu",
@@ -152,9 +215,10 @@ fun DetailSubPageDouble() {
         )
     }
 }
+
 @Composable
 fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
-    Row(modifier = Modifier.padding(top = 10.dp)) {
+    Row(modifier = Modifier.padding(start = 20.dp, top = 12.dp, bottom = 12.dp)) {
         DetailSubPageComponents(
             modifier = Modifier.weight(1f),
             title = "Rüzgar Hızı",
@@ -171,9 +235,10 @@ fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
         )
     }
 }
+
 @Composable
 fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse) {
-    Row(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp)) {
+    Row(modifier = Modifier.padding(start = 20.dp, top = 12.dp, bottom = 12.dp)) {
         DetailSubPageHumidity(
             modifier = Modifier.weight(1f),
             title = "Nem",
@@ -190,6 +255,7 @@ fun DetailSubPageCompSecondComp(weatherResponse: WeatherResponse) {
         )
     }
 }
+
 @Composable
 fun DetailSubPageSun(modifier: Modifier, title: String, clock: String, imageId: Int, size: Int) {
     Row(
@@ -209,17 +275,20 @@ fun DetailSubPageSun(modifier: Modifier, title: String, clock: String, imageId: 
             Text(
                 text = title,
                 color = Color.DarkGray,
+                fontFamily = genova,
                 fontSize = 16.sp,
             )
             Text(
                 text = clock,
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 22.sp,
+                fontFamily = genova,
                 fontWeight = FontWeight.Bold
             )
         }
     }
 }
+
 @Composable
 fun DetailSubPageComponents(
     modifier: Modifier,
@@ -236,7 +305,9 @@ fun DetailSubPageComponents(
             Image(
                 painter = painterResource(id = imageId),
                 contentDescription = null,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(8.dp)
             )
         }
         Column(
@@ -247,17 +318,20 @@ fun DetailSubPageComponents(
             Text(
                 text = title,
                 color = Color.DarkGray,
+                fontFamily = genova,
                 fontSize = 16.sp,
             )
             Text(
                 text = speed,
                 color = MaterialTheme.colorScheme.onSurface,
+                fontFamily = genova,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
         }
     }
 }
+
 @Composable
 fun DetailSubPageWindDirection(
     modifier: Modifier,
@@ -274,7 +348,9 @@ fun DetailSubPageWindDirection(
             Image(
                 painter = painterResource(id = imageId),
                 contentDescription = null,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(8.dp)
             )
         }
         Column(
@@ -285,17 +361,20 @@ fun DetailSubPageWindDirection(
             Text(
                 text = title,
                 color = Color.DarkGray,
+                fontFamily = genova,
                 fontSize = 16.sp,
             )
             Text(
                 text = degree,
                 color = MaterialTheme.colorScheme.onSurface,
+                fontFamily = genova,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
         }
     }
 }
+
 @Composable
 fun DetailSubPageHumidity(
     modifier: Modifier,
@@ -312,7 +391,9 @@ fun DetailSubPageHumidity(
             Image(
                 painter = painterResource(id = imageId),
                 contentDescription = null,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(8.dp)
             )
         }
         Column(
@@ -323,17 +404,20 @@ fun DetailSubPageHumidity(
             Text(
                 text = title,
                 color = Color.DarkGray,
+                fontFamily = genova,
                 fontSize = 16.sp,
             )
             Text(
                 text = deger,
                 color = MaterialTheme.colorScheme.onSurface,
+                fontFamily = genova,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
         }
     }
 }
+
 @Composable
 fun DetailSubPageTemp(
     modifier: Modifier,
@@ -350,7 +434,9 @@ fun DetailSubPageTemp(
             Image(
                 painter = painterResource(id = imageId),
                 contentDescription = null,
-                modifier = Modifier.fillMaxHeight()
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .padding(8.dp)
             )
         }
         Column(
@@ -361,17 +447,20 @@ fun DetailSubPageTemp(
             Text(
                 text = title,
                 color = Color.DarkGray,
+                fontFamily = genova,
                 fontSize = 16.sp,
             )
             Text(
                 text = temperature,
                 color = MaterialTheme.colorScheme.onSurface,
+                fontFamily = genova,
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
         }
     }
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DetayTitle() {
@@ -418,6 +507,7 @@ fun DetayTitle() {
         )
     )
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DetayIcon() {
@@ -464,6 +554,7 @@ fun DetayIcon() {
         )
     )
 }
+
 @Preview(showBackground = true)
 @Composable
 fun DetayTemp() {
@@ -510,6 +601,7 @@ fun DetayTemp() {
         )
     )
 }
+
 @Preview(showBackground = true)
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable

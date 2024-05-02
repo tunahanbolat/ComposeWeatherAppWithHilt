@@ -60,10 +60,25 @@ import com.tunahanbolat.composeweatherappwithhilt.data.WeatherResponse
 import com.tunahanbolat.composeweatherappwithhilt.network.WeatherRepository
 import com.tunahanbolat.composeweatherappwithhilt.network.WeatherService
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.astralstudio
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.bromphtown
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.crushbubble
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.deephero
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.feltful
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.genova
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.miyomura
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.mostheroes
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.nesdays
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.raspberie
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.rusticstory
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.somer
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.southaustrial
+import com.tunahanbolat.composeweatherappwithhilt.ui.theme.supercreamy
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.nio.file.WatchEvent
+import java.util.Calendar
 import kotlin.math.roundToLong
 
 @RequiresApi(Build.VERSION_CODES.P)
@@ -93,35 +108,38 @@ fun WeatherScreen(viewModel: WeatherViewModel, navController: NavController) {
 fun WeatherRow(
     weatherResponse: WeatherResponse, navController: NavController
 ) {
-//    val gradient = Brush.horizontalGradient(
-//        0.0f to colorResource(id = R.color.background_top),
-//        1.0f to colorResource(id = R.color.background_bottom2),
-//        startX = 0.0f,
-//        endX = 1000.0f
-//    )
-    val gradient = Brush.linearGradient(
-        0.0f to colorResource(id = R.color.background_top),
-        500.0f to colorResource(id = R.color.background_bottom2),
+    val shape = RoundedCornerShape(12.dp)
+
+    val cardColor:Brush
+    val gradientEvening = Brush.linearGradient(
+        0.0f to colorResource(id = R.color.back_top),
+        500.0f to colorResource(id = R.color.background_bottom),
         start = Offset.Zero,
         end = Offset.Infinite
     )
-//    val gradient = Brush.verticalGradient(
-//        0.0f to colorResource(id = R.color.background_top),
-//        500.0f to colorResource(id = R.color.background_bottom2),
-//        startY = 0.0f,
-//        endY = 1500.0f
-//    )
-//    val gradient = Brush.radialGradient(
-//        0.0f to colorResource(id = R.color.background_top),
-//        500.0f to colorResource(id = R.color.background_bottom2),
-//        radius = 1500.0f,
-//        tileMode = TileMode.Repeated
-//    )
+    val gradientMorning = Brush.linearGradient(
+        0.0f to colorResource(id = R.color.morning_top),
+        500.0f to colorResource(id = R.color.morning_bottom),
+        start = Offset.Zero,
+        end = Offset.Infinite
+    )
+
+    val calendar = Calendar.getInstance()
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+
+    if(hour in 6..18){
+        cardColor = gradientMorning
+    }
+    else{
+        cardColor = gradientEvening
+    }
+
     ElevatedCard(
         modifier = Modifier
             .padding(vertical = 4.dp, horizontal = 8.dp)
             .height(100.dp)
             .fillMaxWidth()
+            .clip(shape)
             .clickable {
                 val weatherJson = Gson().toJson(weatherResponse)
                 val encode = URLEncoder
@@ -129,13 +147,13 @@ fun WeatherRow(
                     .replace("+", "%20")
                 navController.navigate("detay/$encode")
             },
-        shape = RoundedCornerShape(12.dp),
+        shape = shape,
         elevation = CardDefaults.cardElevation(10.dp),
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .background(gradient)
+                .background(cardColor)
                 .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
@@ -149,14 +167,14 @@ fun WeatherRow(
                 Text(
                     text = weatherResponse.location.name,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    fontFamily = FontFamily.Serif,
+                    fontSize = 26.sp,
+                    fontFamily = genova,
                     color = Color.Black,
                 )
                 Text(
                     text = weatherResponse.current.condition.text,
-                    fontSize = 14.sp,
-                    fontFamily = FontFamily.Monospace,
+                    fontSize = 16.sp,
+                    fontFamily = genova,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     color = Color.Black
@@ -180,8 +198,8 @@ fun WeatherRow(
                 Text(
                     text = "${weatherResponse.current.tempC.roundToLong()} °C",
                     textAlign = TextAlign.Center,
-                    fontSize = 30.sp,
-                    fontFamily = kaushan,
+                    fontSize = 32.sp,
+                    fontFamily = genova,
                     color = Color.White
                 )
             }
@@ -197,7 +215,7 @@ fun WeatherScreenPreview() {
             navController = NavController(LocalContext.current),
             weatherResponse = WeatherResponse(
                 location = Location(
-                    name = "Dummy City",
+                    name = "London",
                     region = "Dummy Region",
                     country = "Dummy Country",
                     lat = 0.0,

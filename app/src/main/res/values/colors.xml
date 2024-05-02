@@ -10,5 +10,10 @@
     <color name="background_top">#d08c38</color>
     <color name="background_bottom">#292c4c</color>
     <color name="background_bottom2">#010101</color>
-    <color name="splash_background">#283593</color>
+    <color name="splash_background">#FFFFFF</color>
+    <color name="evening_top">#283593</color>
+    <color name="morning_top">#D4E157</color>
+    <color name="morning_bottom">#5C6BC0</color>
+    <color name="back_bottom">#FB8C00</color>
+    <color name="back_top">#BDBDBD</color>
 </resources>
