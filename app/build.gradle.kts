@@ -70,29 +70,27 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-
     // DI
     implementation("com.google.dagger:hilt-android:2.51.1")
     implementation("com.google.dagger:hilt-android-compiler:2.51.1")
     kapt("com.google.dagger:hilt-compiler:2.51.1")
-
     // Retrofit
     implementation("com.google.code.gson:gson:2.10.1")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
     implementation ("com.squareup.retrofit2:retrofit:2.9.0")
     implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
     implementation ("com.squareup.okhttp3:okhttp:4.12.0")
-
     // Coil
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("io.coil-kt:coil:2.6.0")
     implementation("io.coil-kt:coil-gif:2.6.0")
-
     //Navigation Controller
     implementation ("androidx.navigation:navigation-compose:2.7.7")
-
     // Splash API
     implementation ("androidx.core:core-splashscreen:1.0.1")
+    // SwipeToRefresh
+    implementation ("androidx.compose.foundation:foundation:1.6.7")
+    implementation ("androidx.compose.material:material:1.6.7")
 }
 
 kapt {

@@ -1,57 +1,35 @@
 package com.tunahanbolat.composeweatherappwithhilt.ui.screen
 
 import android.annotation.SuppressLint
-import android.content.res.Configuration
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import android.provider.Contacts.Intents.UI
-import android.text.style.BackgroundColorSpan
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.painter.ColorPainter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.HorizontalAlignmentLine
-import androidx.compose.ui.layout.VerticalAlignmentLine
-import androidx.compose.ui.modifier.modifierLocalConsumer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.tunahanbolat.composeweatherappwithhilt.R
 import com.tunahanbolat.composeweatherappwithhilt.data.Condition
@@ -59,31 +37,14 @@ import com.tunahanbolat.composeweatherappwithhilt.data.Current
 import com.tunahanbolat.composeweatherappwithhilt.data.Location
 import com.tunahanbolat.composeweatherappwithhilt.data.WeatherResponse
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.astralstudio
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.bromphtown
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.crushbubble
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.deephero
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.feltful
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.genova
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.josefinsans
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.miyomura
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.mostheroes
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.nesdays
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.raspberie
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.rusticstory
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.somer
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.southaustrial
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.supercreamy
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 import java.util.Calendar
 import kotlin.math.roundToLong
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Detail(navController: NavController, weatherResponse: WeatherResponse) {
-    val backColor : Brush
+fun Detail(weatherResponse: WeatherResponse) {
+    val backColor: Brush
     val gradientMorning = Brush.linearGradient(
         0.0f to colorResource(id = R.color.morning_top),
         500.0f to colorResource(id = R.color.morning_bottom),
@@ -99,11 +60,10 @@ fun Detail(navController: NavController, weatherResponse: WeatherResponse) {
     val calendar = Calendar.getInstance()
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
 
-    if(hour in 6..18){
-        backColor = gradientMorning
-    }
-    else{
-        backColor = gradientEvening
+    backColor = if (hour in 6..18) {
+        gradientMorning
+    } else {
+        gradientEvening
     }
 
     Column(
@@ -137,7 +97,7 @@ fun Detail(navController: NavController, weatherResponse: WeatherResponse) {
 
 @Composable
 fun DetailCityTitle(weatherResponse: WeatherResponse) {
-    Column() {
+    Column {
         Text(
             text = weatherResponse.location.name,
             fontSize = 32.sp,
@@ -223,7 +183,7 @@ fun DetailSubPageCompDouble(weatherResponse: WeatherResponse) {
             modifier = Modifier.weight(1f),
             title = "Rüzgar Hızı",
             speed = "${weatherResponse.current.windMph} km/s",
-            imageId = R.drawable.windy,
+            imageId = R.drawable.windsock1,
             size = 64
         )
         DetailSubPageWindDirection(
@@ -307,7 +267,7 @@ fun DetailSubPageComponents(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(8.dp)
+                    .padding(10.dp)
             )
         }
         Column(
@@ -350,7 +310,7 @@ fun DetailSubPageWindDirection(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(8.dp)
+                    .padding(10.dp)
             )
         }
         Column(
@@ -436,7 +396,7 @@ fun DetailSubPageTemp(
                 contentDescription = null,
                 modifier = Modifier
                     .fillMaxHeight()
-                    .padding(8.dp)
+                    .padding(4.dp)
             )
         }
         Column(
@@ -608,7 +568,6 @@ fun DetayTemp() {
 fun DetailPreview() {
     AppTheme {
         Detail(
-            navController = NavController(LocalContext.current),
             weatherResponse = WeatherResponse(
                 location = Location(
                     name = "Çorum",

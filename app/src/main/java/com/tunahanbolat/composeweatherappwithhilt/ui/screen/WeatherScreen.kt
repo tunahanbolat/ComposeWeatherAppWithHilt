@@ -1,45 +1,47 @@
 package com.tunahanbolat.composeweatherappwithhilt.ui.screen
+
 import android.annotation.SuppressLint
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.pullrefresh.PullRefreshIndicator
+import androidx.compose.material.pullrefresh.pullRefresh
+import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.TileMode
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -48,60 +50,63 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
-import coil.decode.ImageDecoderDecoder
 import com.google.gson.Gson
 import com.tunahanbolat.composeweatherappwithhilt.R
 import com.tunahanbolat.composeweatherappwithhilt.data.Condition
 import com.tunahanbolat.composeweatherappwithhilt.data.Current
 import com.tunahanbolat.composeweatherappwithhilt.data.Location
 import com.tunahanbolat.composeweatherappwithhilt.data.WeatherResponse
-import com.tunahanbolat.composeweatherappwithhilt.network.WeatherRepository
-import com.tunahanbolat.composeweatherappwithhilt.network.WeatherService
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.astralstudio
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.bromphtown
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.crushbubble
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.deephero
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.feltful
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.genova
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.miyomura
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.mostheroes
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.nesdays
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.raspberie
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.rusticstory
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.somer
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.southaustrial
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.supercreamy
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
-import java.nio.file.WatchEvent
 import java.util.Calendar
 import kotlin.math.roundToLong
 
 @RequiresApi(Build.VERSION_CODES.P)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun WeatherScreen(viewModel: WeatherViewModel, navController: NavController) {
     val weatherData = viewModel.weatherDataList.value
-    val error = viewModel.error.value
 
-    Scaffold(content = {
-        LazyColumn(contentPadding = it) {
-            items(items = weatherData) { item ->
-                WeatherRow(
-                    weatherResponse = item, navController
-                )
-            }
+    val refreshScope = rememberCoroutineScope()
+    var refreshing by remember { mutableStateOf(false) }
+    val deger = viewModel.loadingState
+
+    fun refresh() = refreshScope.launch {
+        refreshing = true
+        delay(2000)
+        refreshing = false
+    }
+
+    val state = rememberPullRefreshState(refreshing, ::refresh)
+
+    Box(modifier = Modifier.pullRefresh(state)) {
+        if (deger.value) {
+            ShimmerLoadingScreen()
+        } else {
+            Scaffold(content = {
+                LazyColumn(contentPadding = it) {
+                    if (!refreshing) {
+                        items(items = weatherData) { item ->
+                            WeatherRow(
+                                weatherResponse = item, navController
+                            )
+                        }
+                    }
+                }
+            })
         }
-    })
+        PullRefreshIndicator(refreshing, state, Modifier.align(Alignment.TopCenter))
+    }
     LaunchedEffect(Unit) {
         viewModel.fetchWeather(lang = "tr")
     }
 }
+
 @SuppressLint("SuspiciousIndentation")
 @RequiresApi(Build.VERSION_CODES.P)
 @Composable
@@ -109,14 +114,15 @@ fun WeatherRow(
     weatherResponse: WeatherResponse, navController: NavController
 ) {
     val shape = RoundedCornerShape(12.dp)
+    val cardColor: Brush
 
-    val cardColor:Brush
     val gradientEvening = Brush.linearGradient(
         0.0f to colorResource(id = R.color.back_top),
         500.0f to colorResource(id = R.color.background_bottom),
         start = Offset.Zero,
         end = Offset.Infinite
     )
+
     val gradientMorning = Brush.linearGradient(
         0.0f to colorResource(id = R.color.morning_top),
         500.0f to colorResource(id = R.color.morning_bottom),
@@ -127,11 +133,10 @@ fun WeatherRow(
     val calendar = Calendar.getInstance()
     val hour = calendar.get(Calendar.HOUR_OF_DAY)
 
-    if(hour in 6..18){
-        cardColor = gradientMorning
-    }
-    else{
-        cardColor = gradientEvening
+    cardColor = if (hour in 6..18) {
+        gradientMorning
+    } else {
+        gradientEvening
     }
 
     ElevatedCard(
@@ -206,6 +211,7 @@ fun WeatherRow(
         }
     }
 }
+
 @RequiresApi(Build.VERSION_CODES.P)
 @Preview
 @Composable

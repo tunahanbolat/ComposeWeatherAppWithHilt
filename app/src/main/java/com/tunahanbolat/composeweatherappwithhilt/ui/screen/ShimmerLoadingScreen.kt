@@ -1,13 +1,5 @@
 package com.tunahanbolat.composeweatherappwithhilt.ui.screen
 
-import android.content.res.Configuration
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.EnterTransition
-import androidx.compose.animation.ExitTransition
-import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -21,31 +13,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.sourceInformationMarkerStart
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
 import com.tunahanbolat.composeweatherappwithhilt.animation.shimmerLoadingAnimation
 import com.tunahanbolat.composeweatherappwithhilt.ui.theme.AppTheme
-import com.tunahanbolat.composeweatherappwithhilt.ui.theme.kaushan
-import kotlin.math.roundToLong
-@OptIn(ExperimentalAnimationApi::class)
+
 @Composable
 fun ShimmerLoadingScreen() {
     Box(
@@ -75,6 +55,7 @@ fun ShimmerLoadingScreen() {
         }
     }
 }
+
 @Composable
 fun ComponentRectangle() {
     Row(
@@ -110,6 +91,7 @@ fun ComponentRectangle() {
         }
     }
 }
+
 @Composable
 fun ComponentLongRectangle() {
     Box(
@@ -121,6 +103,7 @@ fun ComponentLongRectangle() {
             .shimmerLoadingAnimation()
     )
 }
+
 @Composable
 fun ComponentShortRectangle() {
     Box(
@@ -132,6 +115,7 @@ fun ComponentShortRectangle() {
             .shimmerLoadingAnimation()
     )
 }
+
 @Composable
 fun ComponentCircle() {
     Box(
@@ -143,6 +127,7 @@ fun ComponentCircle() {
             .shimmerLoadingAnimation()
     )
 }
+
 @Composable
 fun ComponentSquare() {
     Box(
@@ -154,26 +139,31 @@ fun ComponentSquare() {
             .shimmerLoadingAnimation()
     )
 }
+
 @Preview
 @Composable
 fun ComponentsLongRectPreview() {
     ComponentLongRectangle()
 }
+
 @Preview
 @Composable
 fun ComponentsShortRectPreview() {
     ComponentShortRectangle()
 }
+
 @Preview
 @Composable
 fun ComponentsCirclePreview() {
     ComponentCircle()
 }
+
 @Preview
 @Composable
 fun ComponentSquarePreview() {
     ComponentSquare()
 }
+
 @Preview(showBackground = true)
 //@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
